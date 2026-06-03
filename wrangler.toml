@@ -1,0 +1,61 @@
+name = "vnts2-cf"
+main = "src/worker.js"
+compatibility_date = "2024-09-23"
+
+[build]
+command = "node scripts/gen-version.js"
+
+[vars]
+# 允许的网络编号列表。留空表示允许任意网络编号。
+# 只限制客户端 -n/--network-code，不限制客户端密码。
+# 每个网络首次创建时确定网段：客户端指定 --ip 时按该 IP 所在 /24 推导；
+# 未指定 --ip 时使用默认 10.46.0.0/24，网关 10.46.0.1。
+NETWORKS = ""
+
+# 离线设备从内存/存储中移除前保留的秒数，过期后将删除整个组网网络编号，默认86400秒 = 24小时。
+LEASE_DURATION = "86400"
+
+# 默认网关 IP，留空使用 10.46.0.1。
+# GATEWAY = "10.46.0.1"
+
+# 页面中服务端节点的名称，留空显示"服务器"。
+# GATEWAY_NAME = "服务器"
+
+# Durable Object 位置提示。让 DO 实例尽量在指定区域创建，降低客户端连接延迟。
+# 可选值：
+#   apac - 亚太地区     weur - 西欧
+#   enam - 北美东部     wnam - 北美西部
+# 不设置则由 Cloudflare 自动选择离请求最近的位置。
+# 注意：这只是提示（hint），不是强制约束。
+LOCATION_HINT = "apac"
+
+# 可选的多个 vnts2-cf 服务端互联配置。
+# 只有一个服务端或不需要跨服务端通信时，两项都留空；不会影响客户端注册、P2P 或本服务端中转。
+# PEER_SERVERS 填写其他 vnts2-cf 服务端地址，禁止填写当前服务端自身地址！
+# SERVER_TOKEN 是服务端互联接口的共享认证密钥；参与互联的所有服务端必须配置相同的非空值。
+# SERVER_TOKEN 留空会禁用 /peer/* 服务端互联接口，并停止客户端信息同步和跨服务端数据转发。
+# 示例：PEER_SERVERS = "https://vnts2-a.example.workers.dev,https://vnts2-b.example.workers.dev"
+PEER_SERVERS = ""
+SERVER_TOKEN = ""
+
+# 维护周期，单位秒：清理租约、刷新互联客户端列表、向本地客户端发送网关 Ping。
+MAINTENANCE_INTERVAL = "15"
+
+# 禁止服务端中转客户端数据。启用后仍允许注册、客户端列表、Ping/Pong、打洞握手；
+# TURN/QUIC/广播类服务端中转会被丢弃，客户端只能依赖 P2P，P2P 不通则业务流量不通。
+# 只有 true/1/yes/on 会禁止中转；其他值或留空默认启用中转。
+DISABLE_RELAY = "0"
+
+# 日志级别：info/debug/off。
+LOG_LEVEL = "off"
+
+# 日志页面密码。留空时 /log 不开放且不记录日志；设置后需要 /log?password=xxx 进入。
+LOG_PASSWORD = ""
+
+[[durable_objects.bindings]]
+name = "VNTS2_ROOM"
+class_name = "Vnts2Room"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["Vnts2Room"]

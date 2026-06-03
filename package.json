@@ -1,0 +1,19 @@
+{
+  "name": "vnts2-cf",
+  "version": "0.1.0",
+  "description": "兼容 VNTS2 的 Cloudflare Worker WebSocket 服务端",
+  "type": "module",
+  "main": "src/worker.js",
+  "scripts": {
+    "dev": "node scripts/gen-version.js && wrangler dev --ip 0.0.0.0 --port 8787 --local-protocol https",
+    "gen-version": "node scripts/gen-version.js",
+    "deploy": "node scripts/gen-version.js && wrangler deploy",
+    "tail": "wrangler tail",
+    "test": "node --test",
+    "docker:e2e": "bash scripts/docker-e2e-test.sh"
+  },
+  "devDependencies": {
+    "wrangler": "^3.0.0"
+  },
+  "license": "MIT"
+}
