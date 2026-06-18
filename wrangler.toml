@@ -35,8 +35,8 @@ LOCATION_HINT = "apac"
 # SERVER_TOKEN 是服务端互联接口的共享认证密钥；参与互联的所有服务端必须配置相同的非空值。
 # SERVER_TOKEN 留空会禁用 /peer/* 服务端互联接口，并停止客户端信息同步和跨服务端数据转发。
 # 示例：PEER_SERVERS = "https://vnts2-a.example.workers.dev,https://vnts2-b.example.workers.dev"
-PEER_SERVERS = ""
-SERVER_TOKEN = ""
+PEER_SERVERS = "tcp://op.huaneng.eu.org:29885"
+SERVER_TOKEN = "woole"
 
 # 维护周期，单位秒：清理租约、刷新互联客户端列表、向本地客户端发送网关 Ping。
 MAINTENANCE_INTERVAL = "15"
