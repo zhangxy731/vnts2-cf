@@ -27,7 +27,7 @@ LEASE_DURATION = "86400"
 #   enam - 北美东部     wnam - 北美西部
 # 不设置则由 Cloudflare 自动选择离请求最近的位置。
 # 注意：这只是提示（hint），不是强制约束。
-LOCATION_HINT = "hkg"
+LOCATION_HINT = "nrt"
 
 # 可选的多个 vnts2-cf 服务端互联配置。
 # 只有一个服务端或不需要跨服务端通信时，两项都留空；不会影响客户端注册、P2P 或本服务端中转。
